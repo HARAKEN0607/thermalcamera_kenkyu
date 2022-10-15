@@ -12,7 +12,7 @@ messages = 60   # RAWS
 __xmit_struct = struct.Struct("=QQIIHBBI") # struct original
 __msg_size = __xmit_struct.size # 8+8+4+4+2+1+1+4=32
 
-iow = _IOW(SPI_IOC_MAGIC, 0, __msg_size)
+iow = ioctl._IOW(SPI_IOC_MAGIC, 0, __msg_size)
 
 
 
