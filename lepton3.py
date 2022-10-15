@@ -1,9 +1,19 @@
 import numpy as np
-import cv2
-from pylepton import Lepton
+import ctypes
+import struct
+import time
+from .ioctl_numbers import _IOR, _IOW
+# from fcntl import ioctl
 
-with Lepton() as l:
-  a,_ = l.capture()
-cv2.normalize(a, a, 0, 65535, cv2.NORM_MINMAX) # extend contrast
-np.right_shift(a, 8, a) # fit data into 8 bits
-cv2.imwrite("output.jpg", np.uint8(a)) # write it!
+SPI_IOC_MAGIC   = ord("k")  # unicode 107
+
+messages = 60   # RAWS
+
+__xmit_struct = struct.Struct("=QQIIHBBI") # struct original
+__msg_size = __xmit_struct.size # 8+8+4+4+2+1+1+4=32
+
+iow = _IOW(SPI_IOC_MAGIC, 0, __msg_size)
+
+
+
+# iow = _IOW(SPI_IOC_MAGIC, 0, )
