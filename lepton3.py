@@ -2,7 +2,7 @@ import numpy as np
 import ctypes
 import struct
 import time
-from .ioctl_numbers import _IOR, _IOW
+import ioctl
 # from fcntl import ioctl
 
 SPI_IOC_MAGIC   = ord("k")  # unicode 107
