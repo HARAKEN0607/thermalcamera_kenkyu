@@ -17,6 +17,8 @@ __msg_size = __xmit_struct.size # 8+8+4+4+2+1+1+4=32
 
 iow = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, __msg_size)
 
+print(iow)
+
 
 
 # iow = _IOW(SPI_IOC_MAGIC, 0, )
