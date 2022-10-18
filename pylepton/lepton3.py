@@ -3,8 +3,8 @@ import ctypes
 import struct
 import time
 import ioctl
-import _IOW
-# from fcntl import ioctl
+from ioctl_numbers import _IOR, _IOW
+from fcntl import ioctl
 
 SPI_IOC_MAGIC   = ord("k")  # unicode 107
 
