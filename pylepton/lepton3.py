@@ -14,15 +14,15 @@ messages = ROWS   # RAWS=60
 
 __xmit_struct = struct.Struct("=QQIIHBBI") # struct original
 __msg_size = __xmit_struct.size # 8+8+4+4+2+1+1+4=32
-iow = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, __msg_size)
+iow = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, __msg_size) # writing mode
 
 __handle = open("/dev/spidev0.0", "wb+", buffering=0) # binary writing
-__xmit_buf = np.zeros((__msg_size * ROWS), dtype=np.uint8)
-ioctl(__handle, iow, __xmit_buf, True)
+__xmit_buf = np.zeros((__msg_size * ROWS), dtype=np.uint8) # 32*60 [0 codes]
+ioctl(__handle, iow, __xmit_buf, True) # writing to camera
 
-print(len(__xmit_buf))
+__capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16)
 
-# __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16)
+print(__capture_buf)
 # while (__capture_buf[0] & 0x000f) == 0x000f: # byteswapped 0x0f00
 #       ioctl(__handle, iow, __xmit_buf, True)
 
