@@ -7,6 +7,8 @@ from fcntl import ioctl
 
 SPI_IOC_MAGIC = ord("k")  # unicode 107
 ROWS = 60
+COLS = 80
+VOSPI_FRAME_SIZE = COLS + 2
 
 messages = ROWS   # RAWS=60
 
@@ -18,6 +20,11 @@ __handle = open("/dev/spidev0.0", "wb+", buffering=0) # binary writing
 __xmit_buf = np.zeros((__msg_size * ROWS), dtype=np.uint8)
 ioctl(__handle, iow, __xmit_buf, True)
 
+print(__xmit_buf)
+
+# __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16)
+# while (__capture_buf[0] & 0x000f) == 0x000f: # byteswapped 0x0f00
+#       ioctl(__handle, iow, __xmit_buf, True)
 
 
 
