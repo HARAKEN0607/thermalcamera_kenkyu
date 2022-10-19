@@ -20,9 +20,10 @@ __handle = open("/dev/spidev0.0", "wb+", buffering=0) # binary writing
 __xmit_buf = np.zeros((__msg_size * ROWS), dtype=np.uint8) # 32*60 [0 codes]
 ioctl(__handle, iow, __xmit_buf, True) # writing to camera
 
-__capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16)
+__capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16) # [82行　1列]の[0]が60個
 
-print(__capture_buf)
+print(__capture_buf[0])
+print(0x000f)
 # while (__capture_buf[0] & 0x000f) == 0x000f: # byteswapped 0x0f00
 #       ioctl(__handle, iow, __xmit_buf, True)
 
