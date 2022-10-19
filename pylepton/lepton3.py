@@ -25,7 +25,7 @@ __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16) # [82è¡Œã
 # __capture_buf[0]=0*82        0x000f=[0*14 1]
 # [0*15] == [0*14 1] repeat 14?
 
-while (__capture_buf[0] & 0x000f) == 0x000f:
+while (__capture_buf[0][0] & 0x000f) == 0x000f:
     ioctl(__handle, iow, __xmit_buf, True)
 
 # messages -= 1 # messages(60)-1
