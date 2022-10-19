@@ -20,7 +20,7 @@ __handle = open("/dev/spidev0.0", "wb+", buffering=0) # binary writing
 __xmit_buf = np.zeros((__msg_size * ROWS), dtype=np.uint8)
 ioctl(__handle, iow, __xmit_buf, True)
 
-print(__xmit_buf)
+print(len(__xmit_buf))
 
 # __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16)
 # while (__capture_buf[0] & 0x000f) == 0x000f: # byteswapped 0x0f00
