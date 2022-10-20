@@ -163,7 +163,7 @@ class Lepton(object):
     return data_buffer, data_buffer.sum()
 
 with Lepton() as l:
-    a = capture()
+    a = l.capture()
 
 cv2.normalize(a, a, 0, 65535, cv2.NORM_MINMAX) # extend contrast
 np.right_shift(a, 8, a) # fit data into 8 bits
