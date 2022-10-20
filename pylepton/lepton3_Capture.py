@@ -69,6 +69,8 @@ def capture(data_buffer=None, log_time=False, debug_print=False, retry_reset=Tru
 
 a = capture()
 
-
+cv2.normalize(a, a, 0, 65535, cv2.NORM_MINMAX) # extend contrast
+np.right_shift(a, 8, a) # fit data into 8 bits
+cv2.imwrite("output.jpg", np.uint8(a)) # write it!
 
 
