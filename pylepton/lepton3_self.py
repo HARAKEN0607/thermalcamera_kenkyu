@@ -8,17 +8,17 @@ from fcntl import ioctl
 
 SPI_IOC_MAGIC   = ord("k")
 
-SPI_IOC_RD_MODE          = _IOR(SPI_IOC_MAGIC, 1, "=B")
-SPI_IOC_WR_MODE          = _IOW(SPI_IOC_MAGIC, 1, "=B")
+SPI_IOC_RD_MODE          = ioctl_numbers._IOR(SPI_IOC_MAGIC, 1, "=B")
+SPI_IOC_WR_MODE          = ioctl_numbers._IOW(SPI_IOC_MAGIC, 1, "=B")
 
-SPI_IOC_RD_LSB_FIRST     = _IOR(SPI_IOC_MAGIC, 2, "=B")
-SPI_IOC_WR_LSB_FIRST     = _IOW(SPI_IOC_MAGIC, 2, "=B")
+SPI_IOC_RD_LSB_FIRST     = ioctl_numbers._IOR(SPI_IOC_MAGIC, 2, "=B")
+SPI_IOC_WR_LSB_FIRST     = ioctl_numbers._IOW(SPI_IOC_MAGIC, 2, "=B")
 
-SPI_IOC_RD_BITS_PER_WORD = _IOR(SPI_IOC_MAGIC, 3, "=B")
-SPI_IOC_WR_BITS_PER_WORD = _IOW(SPI_IOC_MAGIC, 3, "=B")
+SPI_IOC_RD_BITS_PER_WORD = ioctl_numbers._IOR(SPI_IOC_MAGIC, 3, "=B")
+SPI_IOC_WR_BITS_PER_WORD = ioctl_numbers._IOW(SPI_IOC_MAGIC, 3, "=B")
 
-SPI_IOC_RD_MAX_SPEED_HZ  = _IOR(SPI_IOC_MAGIC, 4, "=I")
-SPI_IOC_WR_MAX_SPEED_HZ  = _IOW(SPI_IOC_MAGIC, 4, "=I")
+SPI_IOC_RD_MAX_SPEED_HZ  = ioctl_numbers._IOR(SPI_IOC_MAGIC, 4, "=I")
+SPI_IOC_WR_MAX_SPEED_HZ  = ioctl_numbers._IOW(SPI_IOC_MAGIC, 4, "=I")
 
 SPI_CPHA   = 0x01                 # /* clock phase */
 SPI_CPOL   = 0x02                 # /* clock polarity */
