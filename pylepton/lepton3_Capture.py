@@ -17,18 +17,6 @@ __xmit_struct = struct.Struct("=QQIIHBBI") # struct original
 __msg_size = __xmit_struct.size # 8+8+4+4+2+1+1+4=32
 __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16) # [60行　82列]の枠に0が一つずつ
 
-def capture_segment(handle, xs_buf, xs_size, capture_buf):
-    messages = ROWS
-
-    iow = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, xs_size)
-    ioctl(handle, iow, xs_buf, True)
-
-    while (capture_buf[0] & 0x000f) == 0x000f:  # byteswapped 0x0f00
-        ioctl(handle, iow, xs_buf, True)
-
-    messages -= 1
-
-
 def capture(data_buffer=None, log_time=False, debug_print=False, retry_reset=True):
 
     if data_buffer is None:
@@ -38,7 +26,6 @@ def capture(data_buffer=None, log_time=False, debug_print=False, retry_reset=Tru
         raise Exception("Provided input array not large enough")
 
     while True:
-        # capture_segment(__handle, __xmit_buf, __msg_size, __capture_buf[0])
         messages = ROWS
         ioctl(__handle, iow, __xmit_buf, True)  # writing to camera
 
