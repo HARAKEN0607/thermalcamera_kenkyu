@@ -162,7 +162,8 @@ class Lepton(object):
     # TODO: turn on telemetry to get real frame id, sum on this array is fast enough though (< 500us)
     return data_buffer, data_buffer.sum()
 
-a = capture()
+with Lepton() as l:
+    a = capture()
 
 cv2.normalize(a, a, 0, 65535, cv2.NORM_MINMAX) # extend contrast
 np.right_shift(a, 8, a) # fit data into 8 bits
