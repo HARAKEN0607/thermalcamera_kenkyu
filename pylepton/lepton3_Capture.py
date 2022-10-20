@@ -38,7 +38,20 @@ def capture(data_buffer=None, log_time=False, debug_print=False, retry_reset=Tru
         raise Exception("Provided input array not large enough")
 
     while True:
-        capture_segment(__handle, __xmit_buf, __msg_size, __capture_buf[0])
+        # capture_segment(__handle, __xmit_buf, __msg_size, __capture_buf[0])
+        messages = ROWS
+        ioctl(__handle, iow, __xmit_buf, True)  # writing to camera
+
+        __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16)  # [60行　82列]の枠に0が一つずつ
+
+        # __capture_buf[0]=0*82    __capture_buf[0][0]=0    0x000f=[0*14 1]
+        # __capture_buf[0][0] & 0x000f = 0
+
+        while (__capture_buf[0][0] & 0x000f) == 0x000f:  # __capture_buf[0]=0*82    __capture_buf[0][0]=0    0x000f=[0*14 1]
+            ioctl(__handle, iow, __xmit_buf, True)  # __capture_buf[0][0] & 0x000f = 0
+
+        messages -= 1  # messages(60)-1
+
         if retry_reset and (__capture_buf[20, 0] & 0xFF0F)!= 0x1400:
             if debug_print:
                 print("Garbage frame number reset waiting...")
