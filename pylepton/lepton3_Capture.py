@@ -27,6 +27,8 @@ def capture(data_buffer=None, log_time=False, debug_print=False, retry_reset=Tru
 
     while True:
         messages = ROWS
+        iow = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, __msg_size)  # writing mode
+
         ioctl(__handle, iow, __xmit_buf, True)  # writing to camera
 
         __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16)  # [60行　82列]の枠に0が一つずつ
