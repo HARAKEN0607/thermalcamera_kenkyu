@@ -23,7 +23,6 @@ __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16) # [60è¡Œã
 # __capture_buf[0]=0*82    __capture_buf[0][0]=0    0x000f=[0*14 1]
 # __capture_buf[0][0] & 0x000f = 0
 
-
 while (__capture_buf[0][0] & 0x000f) == 0x000f: # __capture_buf[0]=0*82    __capture_buf[0][0]=0    0x000f=[0*14 1]
     ioctl(__handle, iow, __xmit_buf, True)      # __capture_buf[0][0] & 0x000f = 0
 
