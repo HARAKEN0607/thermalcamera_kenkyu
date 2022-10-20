@@ -1,12 +1,10 @@
+import numpy as np
+import ctypes
 import struct
 import time
+import ioctl_numbers
 from fcntl import ioctl
 
-import cv2
-import numpy as np
-
-# relative imports in Python3 must be explicit
-from .ioctl_numbers import _IOR, _IOW
 
 SPI_IOC_MAGIC   = ord("k")
 
@@ -61,7 +59,7 @@ class Lepton(object):
     self.__xmit_struct = struct.Struct("=QQIIHBBI")
     self.__msg_size = self.__xmit_struct.size
     self.__xmit_buf = np.zeros((self.__msg_size * Lepton.ROWS), dtype=np.uint8)
-    self.__msg = _IOW(SPI_IOC_MAGIC, 0, self.__xmit_struct.format)
+    self.__msg = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, self.__xmit_struct.format)
     self.__capture_buf = np.zeros((Lepton.ROWS, Lepton.VOSPI_FRAME_SIZE, 1), dtype=np.uint16)
 
     for i in range(Lepton.ROWS):
@@ -97,7 +95,7 @@ class Lepton(object):
   def capture_segment(handle, xs_buf, xs_size, capture_buf):
     messages = Lepton.ROWS
 
-    iow = _IOW(SPI_IOC_MAGIC, 0, xs_size)
+    iow = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, xs_size)
     ioctl(handle, iow, xs_buf, True)
 
     while (capture_buf[0] & 0x000f) == 0x000f: # byteswapped 0x0f00
@@ -119,23 +117,13 @@ class Lepton(object):
         count = Lepton.SPIDEV_MESSAGE_LIMIT
       else:
         count = messages
-      iow = _IOW(SPI_IOC_MAGIC, 0, xs_size * count)
+      iow = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, xs_size * count)
       ret = ioctl(handle, iow, xs_buf[xs_size * (60 - messages):], True)
       if ret < 1:
         raise IOError("can't send {0} spi messages ({1})".format(60, ret))
       messages -= count
 
   def capture(self, data_buffer = None, log_time = False, debug_print = False, retry_reset = True):
-    """Capture a frame of data.
-    Captures 80x60 uint16 array of non-normalized (raw 12-bit) data. Returns that frame and a frame_id (which
-    is currently just the sum of all pixels). The Lepton will return multiple, identical frames at a rate of up
-    to ~27 Hz, with unique frames at only ~9 Hz, so the frame_id can help you from doing additional work
-    processing duplicate frames.
-    Args:
-      data_buffer (numpy.ndarray): Optional. If specified, should be ``(60,80,1)`` with `dtype`=``numpy.uint16``.
-    Returns:
-      tuple consisting of (data_buffer, frame_id)
-    """
 
     start = time.time()
 
