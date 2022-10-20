@@ -1,10 +1,15 @@
 import numpy as np
-import struct
+# import struct
 import time
-import ioctl_numbers
-from fcntl import ioctl
+# import ioctl_numbers
+# from fcntl import ioctl
 
-start = time.time()
+ROWS = 60
+COLS = 80
 
-if data_buffer is None:
-    data_buffer = np.ndarray((Lepton.ROWS, Lepton.COLS, 1), dtype=np.uint16)
+start = time.time() # NowTime in PC
+
+data_buffer = np.ndarray((ROWS, COLS, 1), dtype=np.uint16) # 60行80列に1枠ずつ
+
+print(data_buffer)
+
