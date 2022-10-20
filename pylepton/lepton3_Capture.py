@@ -53,7 +53,7 @@ def capture(data_buffer=None, log_time=False, debug_print=False, retry_reset=Tru
 
     if debug_print:
       print("---")
-      for i in range(Lepton.ROWS):
+      for i in range(ROWS):
         fid = __capture_buf[i, 0, 0]
         crc = __capture_buf[i, 1, 0]
         fnum = fid & 0xFFF
