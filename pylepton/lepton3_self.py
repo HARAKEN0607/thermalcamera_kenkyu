@@ -15,6 +15,7 @@ class Lepton(object):
 
   def __init__(self, spi_dev = "/dev/spidev0.0"):
     self.__spi_dev = spi_dev
+    self.__handle = open(self.__spi_dev, "wb+", buffering=0)
     self.__txbuf = np.zeros(Lepton.VOSPI_FRAME_SIZE, dtype=np.uint16)
 
     self.__xmit_struct = struct.Struct("=QQIIHBBI")
