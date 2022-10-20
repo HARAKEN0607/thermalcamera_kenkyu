@@ -12,9 +12,9 @@ start = time.time() # NowTime in PC
 VOSPI_FRAME_SIZE = COLS + 2
 
 __handle = open("/dev/spidev0.0", "wb+", buffering=0) # binary writing
+__xmit_struct = struct.Struct("=QQIIHBBI") # struct original
 __msg_size = __xmit_struct.size # 8+8+4+4+2+1+1+4=32
 __xmit_buf = np.zeros((__msg_size * ROWS), dtype=np.uint8) # 32*60 [0 codes]
-__xmit_struct = struct.Struct("=QQIIHBBI") # struct original
 __capture_buf = np.zeros((ROWS, VOSPI_FRAME_SIZE, 1), dtype=np.uint16) # [60行　82列]の枠に0が一つずつ
 
 def capture(data_buffer=None, log_time=False, debug_print=False, retry_reset=True):
