@@ -103,26 +103,6 @@ class Lepton(object):
 
     messages -= 1
 
-    # NB: the default spidev bufsiz is 4096 bytes so that's where the 24 message limit comes from: 4096 / Lepton.VOSPI_FRAME_SIZE_BYTES = 24.97...
-    # This 24 message limit works OK, but if you really need to optimize the read speed here, this hack is for you:
-
-    # The limit can be changed when spidev is loaded, but since it is compiled statically into newer raspbian kernels, that means
-    # modifying the kernel boot args to pass this option. This works too:
-    #   $ sudo chmod 666 /sys/module/spidev/parameters/bufsiz
-    #   $ echo 65536 > /sys/module/spidev/parameters/bufsiz
-    # Then Lepton.SPIDEV_MESSAGE_LIMIT of 24 can be raised to 59
-
-    while messages > 0:
-      if messages > Lepton.SPIDEV_MESSAGE_LIMIT:
-        count = Lepton.SPIDEV_MESSAGE_LIMIT
-      else:
-        count = messages
-      iow = ioctl_numbers._IOW(SPI_IOC_MAGIC, 0, xs_size * count)
-      ret = ioctl(handle, iow, xs_buf[xs_size * (60 - messages):], True)
-      if ret < 1:
-        raise IOError("can't send {0} spi messages ({1})".format(60, ret))
-      messages -= count
-
   def capture(self, data_buffer = None, log_time = False, debug_print = False, retry_reset = True):
 
     start = time.time()
